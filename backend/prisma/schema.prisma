@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model MovieCache {
+  id        Int     @id @default(autoincrement())
+  tmdbId    Int     @unique
+  data      String  // JSON string of the movie object
+  createdAt DateTime @default(now())
+}
