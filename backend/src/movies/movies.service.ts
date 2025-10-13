@@ -18,7 +18,7 @@ type TMDBListResponse = {
 @Injectable()
 export class MoviesService {
   private tmdb: AxiosInstance;
-  private popularTTLSeconds = 300;
+  private popularTTLSeconds = 3000;
   private detailTTLSeconds = 3600; 
 
   constructor(
