@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    environment:
+      # No usar este valor en producción; pasar REDIS_PASSWORD desde .env o secrets
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    # Si REDIS_PASSWORD está definido, arranca con requirepass
+    command: ["sh", "-c", "if [ -n \"${REDIS_PASSWORD}\" ]; then exec redis-server --requirepass \"${REDIS_PASSWORD}\"; else exec redis-server; fi"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build: .
+    environment:
+      TMDB_API_KEY: ${TMDB_API_KEY}
+      USE_REDIS: "true"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "3001:3001"
+    depends_on:
+      - redis
+    restart: on-failure
+
+volumes:
+  redis-data:
+    driver: local
