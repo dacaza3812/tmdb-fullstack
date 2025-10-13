@@ -1,0 +1,17 @@
+# node
+node_modules
+**/node_modules
+.env
+dist
+coverage
+
+# frontend / next
+frontend/.next
+frontend/out
+
+# backend / nest
+backend/dist
+
+# prisma
+backend/prisma/dev.db
+backend/prisma/migrations
