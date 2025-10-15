@@ -7,6 +7,7 @@ coverage
 
 # frontend / next
 frontend/.next
+frontend/.vercel
 frontend/out
 
 # backend / nest
@@ -15,3 +16,4 @@ backend/dist
 # prisma
 backend/prisma/dev.db
 backend/prisma/migrations
+
